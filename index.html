@@ -6,31 +6,39 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Books</title>
-    <!-- Bootstrap Stylesheet -->
+    <!--Bootstrap Stylesheet -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <!-- Custom Css Stylesheet  -->
+    <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
-    <h2 class="fs-2 text-center text-primary">Search For Your Books</h2>
-    <!-- books search input -->
-    <div class="input-group mb-3 w-50 mx-auto">
-        <input id="search-field" type="text" class="form-control" placeholder="Search for books..."
-            aria-label="Recipient's username" aria-describedby="button-addon2">
-        <button onclick="searchBooks()" class="btn btn-outline-secondary" type="button"
-            id="button-addon2">Search</button>
-    </div>
-
-    <!-- found search result -->
-    <div id="search-result">
-
-    </div>
-
-    <!-- books result -->
-    <div id="books-container" class="container mx-auto row row-cols-1 row-cols-md-4 g-4">
-
-    </div>
-
+    <header class="container">
+        <!-- button and input  -->
+        <h1 class="text-center fs-1 mt-3 text-primary">Search For Your Books</h1>
+        <div class="input-group mb-3 container mt-3 w-75">
+            <input id="input-field" type="text" class="form-control p-2" placeholder="Search for..."
+                aria-label="Recipient's username" aria-describedby="button-addon2">
+            <button class="btn btn-primary text-white " type="button" id="button">Search</button>
+        </div>
+    </header>
+    <main class="container">
+        <!--loading Spiners -->
+        <div id="spiners">
+        </div>
+        <!-- Total founded Result -->
+        <div id="total-search-value">
+            <h5 class="text-secondary"> Total found : <span id="total"> </span></h5>
+        </div>
+        <!-- No Result Found Message -->
+        <div id="result" class="result-not-found">
+            <h3 class="text-center fw-bold text-danger"> Sorry We Can't Found Any Result </h3>
+        </div>
+        <!-- Books Container -->
+        <div id="displaybook" class="row row-cols-1 row-cols-md-3 mt-4">
+        </div>
+    </main>
 
     <!-- Bootstrap Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"

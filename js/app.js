@@ -1,47 +1,77 @@
-const searchBooks = () => {
-    const searchField = document.getElementById('search-field');
-    const searchText = searchField.value;
-    searchField.value = '';
-
-    const url = `http://openlibrary.org/search.json?q=${searchText}`
-    fetch(url)
-        .then(res => res.json())
-        .then(data => displayBooks(data))
+//  found result
+const ResultFound = (id, property) => {
+    const noResult = document.getElementById(id)
+    noResult.style.display = property;
 };
+// even listner
+document.getElementById('button').addEventListener('click', async () => {
+    const inputField = document.getElementById('input-field');
+    const inputText = inputField.value;
+    inputField.value = '';
 
-const displayBooks = data => {
-    const foundResult = data.numFound;
-    const books = data.docs;
-    // show the search result length
-    // console.log(books)
-    const searchResultContainer = document.getElementById('search-result')
-    searchResultContainer.textContent = '';
-    const searchResultDiv = document.createElement('div');
-    searchResultDiv.classList.add('bg-secondary', 'text-white', 'text-center', 'w-25', 'mx-auto', 'p-2', 'mb-4')
-    searchResultDiv.innerHTML = `
-        <h6>Search Result Found: ${foundResult}</h6>
-    `;
-    searchResultContainer.appendChild(searchResultDiv)
+    ResultFound('result', 'none')
+    ResultFound('total-search-value', 'none')
 
+    const displayContainer = document.getElementById('displaybook')
+    displayContainer.textContent = '';
 
-    const booksContainer = document.getElementById('books-container');
-    booksContainer.textContent = '';
-    books?.forEach(book => {
-        // console.log(book)
+    // empty input
+    if (inputText === '') {
+        alert('Please give a book name')
+        return;
+    };
+    ResultFound('spiners', 'block')
+    try {
+        const url = `https://openlibrary.org/search.json?q=${inputText}`;
+        const res = await fetch(url);
+        const data = await res.json();
+        // show the total found
+        const resultQuantity = document.getElementById('total');
+        resultQuantity.innerText = data.numFound;
+
+        displayInformation(data.docs)
+
+    } catch (er) {
+        // hide spinner
+        ResultFound('spiners', 'none')
+    }
+});
+// display info
+const displayInformation = (booksData) => {
+    console.log(booksData.length);
+    if (booksData.length == 0 || booksData === null) {
+        // no result
+        ResultFound('result', 'block');
+        // remove spiners
+        ResultFound('spiners', 'none')
+
+    } else {
+        // hide no result messege
+        ResultFound('result', 'none')
+    }
+
+    // total search value
+    ResultFound('total-search-value', 'block')
+
+    const displayContainer = document.getElementById('displaybook')
+    displayContainer.textContent = '';
+
+    booksData.slice(0, 18).forEach(book => {
         const div = document.createElement('div');
-        div.classList.add('col')
+        div.className = 'col mb-5';
         div.innerHTML = `
-            <div class="card h-100">
-            <img style= "height:300px" src="https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg" class="card-img-top" alt="Cover image">
-            <div class="card-body">
-            <h5 class="card-title">${book.title}</h5>
-            <p class="card-text">Author Name: ${book.author_name ? book.author_name[0] : 'not available'}</p>
-            <p class="card-text">1st Published: ${book.first_publish_year ? book.first_publish_year : ''}</p>
+            <div class="text-center border-0 ">
+            <img width="180" height="220" src="https://covers.openlibrary.org/b/id/${book.cover_i ? book.cover_i : ''}-M.jpg" class="mx-auto" alt="...">
+            <div class="mt-2">
+                <h5 class="card-title m-0 fw-bold text-primary fs-5">${book.title}</h5>
+                <p class=" m-0 ">Author: ${book.author_name ? book.author_name[0] : 'Unknown author'}</p>
+                <p class=" m-0">First Published: ${book.first_publish_year ? book.first_publish_year : 'Unknown Year'}</p>
+                <p class=" m-0">Publisher: ${book.publisher[0] ? book.publisher[0] : 'Unknow publisher'}</p>
             </div>
-        </div>
-        
-        `;
-        booksContainer.appendChild(div)
-
-    })
-}
+            
+            </div>`
+        displayContainer.appendChild(div);
+        // Remove spiners
+        ResultFound('spiners', 'none')
+    });
+};

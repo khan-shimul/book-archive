@@ -1,0 +1,38 @@
+body{
+    background-color: #F5F5F5;
+  }
+  #button:hover{
+      background-color: #0060B9;
+  }
+  #result {
+    display: none;
+  }
+  #total-search-value {
+    display: none;
+  }
+  img {
+    box-shadow: 2px 4px 8px rgb(179, 179, 179);
+  }
+  /* Spiner Style */
+  #spiners {
+    display: none;
+    margin: 0 auto;
+    margin-top: 50px;
+    border: 8px solid #f3f3f3;
+    border-left: 5px solid #292929;
+    border-right: 5px solid #292929;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    animation: spin .5s linear infinite;
+  }
+  
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+  
+    100% {
+      transform: rotate(360deg);
+    }
+  }
